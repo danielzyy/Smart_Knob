@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name "smart_knob_symbols")(type "KiCad")(uri "${KIPRJMOD}/smart_knob_symbols.kicad_sym")(options "")(descr ""))
+  (lib (name "USB4110-GF-A_REVB")(type "KiCad")(uri "C:/Users/danie/Documents/KiCad Projects/libraries/USB4110-GF-A_REVB/USB4110-GF-A_REVB.kicad_sym")(options "")(descr ""))
+)

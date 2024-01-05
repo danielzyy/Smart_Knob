@@ -1,0 +1,8 @@
+
+### Making things work
+# GC9a01 Display
+* Copy `User_Setup.h` file into the `pio\libdeps\genericSTM32F401RE\TFT_eSPI` directory.
+
+# FreeRTOS
+* Ensure `include\STM32FreeRTOSConfig.h` exists with the correct configs.
+* Also uncomment `#define configMEMMANG_HEAP_NB 3` from `.pio\libdeps\genericSTM32F401RE\STM32duino FreeRTOS\src\FreeRTOSConfig_Default.h`.
