@@ -2,10 +2,11 @@
 #define ANGLESENSOR_H
 
 #include <Arduino.h>
-#include <Tlv493d.h>
+#include <STM32FreeRTOS.h>
 
-void initAngleSensor();
-float getAngleDeg();
-float getAngleRad();
+void initAngleSensor(void);
+float getAngleDeg(void);
+float getAngleRad(void);
+void initAngleSensorTask(UBaseType_t priority);
 
 #endif // ANGLESENSOR_H

@@ -5,6 +5,8 @@
 #include <TFT_eSPI.h>
 #include <STM32FreeRTOS.h>
 
+#define TASK_PERIOD_MS 5U
+
 // Create the dial sprite, the dial outer and place scale markers
 static void createDialScale(TFT_eSprite* dial, TFT_eSprite* tick, int16_t radius, int16_t start_angle, int16_t end_angle, int16_t increment)
 {
@@ -23,7 +25,7 @@ static void createDialScale(TFT_eSprite* dial, TFT_eSprite* tick, int16_t radius
 static void TaskDisplay(void *pvParameters)
 {
   // Run every 1ms
-  const TickType_t xDelay = 1 / portTICK_PERIOD_MS;
+  const TickType_t xDelay = TASK_PERIOD_MS / portTICK_PERIOD_MS;
 
   TFT_eSPI tft = TFT_eSPI();
 

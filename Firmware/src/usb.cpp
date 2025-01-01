@@ -4,8 +4,8 @@
 
 #include "angleSensor.h"
 #include <Arduino.h>
-// #include "Keyboard.h"
-#include <MediaKeyboard.h>
+#include "Keyboard.h"
+// #include <MediaKeyboard.h>
 #include <STM32FreeRTOS.h>
 
 
@@ -19,9 +19,8 @@ static void TaskUSB(void *pvParameters)
   // Sample every 20ms
   const TickType_t xDelay = 20 / portTICK_PERIOD_MS;
 
-  // Keyboard.begin();
-  initAngleSensor();
-  MediaKeyboard.begin();
+  Keyboard.begin();
+  // MediaKeyboard.begin();
   // for (int i = 0; i<100; i++)
   // {
   //   Keyboard.write(0x00);
@@ -29,18 +28,20 @@ static void TaskUSB(void *pvParameters)
   // }
   uint16_t prevAngle = 0;
   
-  uint8_t currentKey = VOLUME_DOWN;
+  // uint8_t currentKey = VOLUME_DOWN;
   // int count = 0;
   while (1)
   {
     uint16_t currAngle = getAngleDeg();
-    if(currAngle > prevAngle + 3) {
-      // Keyboard.write(':');
-      MediaKeyboard.press(VOLUME_UP);
+    if(currAngle > prevAngle + 5) {
+      Keyboard.write('+');
+      // MediaKeyboard.press(VOLUME_UP);
+      // MediaKeyboard.release();
       prevAngle = currAngle;
-    } else if (currAngle < prevAngle - 3) {
-      // Keyboard.write('3');
-      MediaKeyboard.press(VOLUME_DOWN);
+    } else if (currAngle < prevAngle - 5) {
+      Keyboard.write('-');
+      // MediaKeyboard.press(VOLUME_DOWN);
+      // MediaKeyboard.release();
       prevAngle = currAngle;
     }
     // if (xQueueReceive(usbQueue, &currentKey, (TickType_t)10)) {

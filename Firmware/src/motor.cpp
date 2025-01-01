@@ -9,6 +9,7 @@
 // #include "Keyboard.h"
 // #include <MediaKeyboard.h>
 
+#define TASK_PERIOD_MS 1U
 #define VOLTAGE_SUPPLY (5U)   // V
 #define CURRENT_LIMIT  (1.0f) //  Amps
 #define VELOCITY_LIMIT (10.0f)
@@ -48,8 +49,7 @@ static void TaskMotor(void *pvParameters)
   (void) pvParameters;
   modeQueue = xQueueCreate( 5, sizeof( motor_state_E ) );
 
-  // Run every 1ms
-  const TickType_t xDelay = 1 / portTICK_PERIOD_MS;
+  const TickType_t xDelay = TASK_PERIOD_MS / portTICK_PERIOD_MS;
 
   // Initialize keyboard
   // Keyboard.begin();
@@ -59,14 +59,14 @@ static void TaskMotor(void *pvParameters)
 
   // BLDC motor & driver instance
   // BLDCMotor( pp number , phase resistance)
-  BLDCMotor motor = BLDCMotor(7);
+  BLDCMotor motor = BLDCMotor(7, 8);
   BLDCDriver3PWM driver = BLDCDriver3PWM(3, 5, 6);
   PIDController torquePID = PIDController(25, 0.1, 0.21, 1000, VOLTAGE_SUPPLY);
   // Angle sensor
   GenericSensor sensor = GenericSensor(getAngleRad, initAngleSensor);
 
   
-  motor_state_E prevState = HOLD;
+  motor_state_E prevState = SELECT; // should be HOLD on startup
   
   float forceLPF = 0.15f; // Set to 1 for no filter
   float angleLPF = 0.9f; // Set to 1 for no filter
@@ -88,7 +88,7 @@ static void TaskMotor(void *pvParameters)
   motor.current_limit = CURRENT_LIMIT;
  
   // closed-loop torque control config
-  motor.controller = MotionControlType::torque;
+  motor.controller = MotionControlType::velocity_openloop; // should be torque
 
   motor.LPF_velocity.Tf = VELOCITY_LPF;
   motor.velocity_limit = VELOCITY_LIMIT;
@@ -97,11 +97,11 @@ static void TaskMotor(void *pvParameters)
   motor.motion_downsample = (int)downsample;
 
   // init motor
-  // motor.useMonitoring(Serial);
-  // motor.init();
-  // motor.initFOC(); // calibration params
+  motor.useMonitoring(Serial);
+  motor.init();
+  motor.initFOC(); // calibration params
 
-  // // add motor command M
+  // add motor command M
   // command.add('M',onMotor,"motor command");
   // command.add('C',onPid,"torque pid command");
 

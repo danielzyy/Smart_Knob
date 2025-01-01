@@ -109,7 +109,7 @@ extern char _Min_Stack_Size; /* Defined in the linker script */
 #define configISR_STACK_SIZE_WORDS        ((uint32_t)&_Min_Stack_Size/4)
 #endif
 
-#define configUSE_TIME_SLICING            0 // Disable for USB
+#define configUSE_TIME_SLICING            1 // Disable for USB
 #define configUSE_PREEMPTION              1
 #define configUSE_IDLE_HOOK               1
 #define configUSE_TICK_HOOK               1

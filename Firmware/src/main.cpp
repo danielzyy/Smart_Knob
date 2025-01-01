@@ -2,6 +2,8 @@
 #include "forceSensor.h"
 #include "display.h"
 #include "usb.h"
+#include "angleSensor.h"
+
 #include <Arduino.h>
 #include <STM32FreeRTOS.h>
 
@@ -16,8 +18,9 @@ void setup() {
   // }
   initMotorTask(2);
   initForceSensorTask(0);
-  initDisplayTask(0);
-  // initUSBTask(0);
+  initDisplayTask(1);
+  initUSBTask(1);
+  initAngleSensorTask(0);
   // // Create Mutex
   // if ( xForceSensorSemaphore == NULL )
   // {
